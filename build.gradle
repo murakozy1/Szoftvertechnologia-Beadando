@@ -1,0 +1,149 @@
+buildscript {
+    
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        google()
+    }
+    dependencies {
+        
+
+    }
+}
+
+allprojects {
+    apply plugin: "idea"
+
+    version = '1.0'
+    ext {
+        appName = "Detonator Circle"
+        gdxVersion = '1.12.1'
+        roboVMVersion = '2.3.20'
+        box2DLightsVersion = '1.5'
+        ashleyVersion = '1.7.4'
+        aiVersion = '1.8.2'
+        gdxControllersVersion = '2.2.1'
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        google()
+        gradlePluginPortal()
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        maven { url "https://oss.sonatype.org/content/repositories/releases/" }
+        maven { url "https://jitpack.io" }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    tasks.named('test') {
+        useJUnitPlatform()
+        testLogging.showStandardStreams = true
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
+    }
+
+    test {
+        reports {
+            junitXml {
+                outputLocation = layout.buildDirectory.dir("test-junit-xml")
+                outputPerTestCase = true
+                mergeReruns = true
+            }
+        }
+    }
+}
+
+project(":desktop") {
+    apply plugin: "java-library"
+    apply plugin: "java"
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+
+    dependencies {
+            implementation project(":core")
+            api "com.badlogicgames.gdx:gdx-backend-lwjgl3:$gdxVersion"
+            api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+            api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+            api "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+    }
+}
+
+project(":core") {
+    apply plugin: "idea"
+    apply plugin: "java-library"
+    apply plugin: "java"
+    sourceCompatibility = '17'
+    targetCompatibility = '17'
+
+    dependencies {
+        api "com.badlogicgames.gdx:gdx:$gdxVersion"
+        api "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
+        api "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        api "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
+        api "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+        // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.2'
+        // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.10.2'
+        // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-api
+        testImplementation group: 'org.junit.platform', name: 'junit-platform-suite-api', version: '1.10.2'
+        // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-commons
+        implementation group: 'org.junit.platform', name: 'junit-platform-commons', version: '1.10.2'
+        // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-launcher
+        testImplementation group: 'org.junit.platform', name: 'junit-platform-launcher', version: '1.10.2'
+        // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-engine
+        testImplementation group: 'org.junit.platform', name: 'junit-platform-engine', version: '1.10.2'
+        // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite
+        testImplementation group: 'org.junit.platform', name: 'junit-platform-suite', version: '1.10.2'
+        // https://mvnrepository.com/artifact/org.junit.platform/junit-platform-suite-engine
+        testImplementation group: 'org.junit.platform', name: 'junit-platform-suite-engine', version: '1.10.2'
+        // https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-engine
+        testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.2'
+
+
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDirs = [ 'src/projekt' ]
+            }
+        }
+        test {
+            java {
+                srcDirs = [ 'src/test' ]
+            }
+        }
+    }
+
+    idea {
+        module {
+            downloadJavadoc = true;
+            downloadSources = true;
+            testSources.from(sourceSets.test.java.srcDirs)
+        }
+    }
+
+//     tasks.named('test') {
+//         useJUnitPlatform()
+//         testLogging.showStandardStreams = true
+//         testLogging {
+//             events("passed", "skipped", "failed")
+//         }
+//     }
+
+    javadoc {
+        options {
+            memberLevel = JavadocMemberLevel.PROTECTED
+        }
+    }
+}

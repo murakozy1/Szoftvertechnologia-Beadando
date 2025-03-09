@@ -6,7 +6,7 @@ Részletes feladatleírás itt található: https://github.com/murakozy1/Szoftve
 
 A beadandót egy három fős csoport készítette a GitLab verziókezelő rendszer segítségével.
 
-# Választott bónuszfeladatok: 
+### Választott bónuszfeladatok: 
 - Folyamatos mozgás
 - Hátráltató bónuszok
 - Testre szabható vezérlés

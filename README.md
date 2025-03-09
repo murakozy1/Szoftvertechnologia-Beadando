@@ -5,7 +5,7 @@ Teljes feladatleírás itt található: https://github.com/murakozy1/Szoftvertec
 
 A beadandót egy három fős csoport készítette.
 
-Választott bónuszfeladatok:
+### Választott bónuszfeladatok:
 - Folyamatos mozgás
 - Hátráltató bónuszok
 - Testre szabható vezérlés
